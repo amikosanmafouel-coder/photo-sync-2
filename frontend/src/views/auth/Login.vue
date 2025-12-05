@@ -12,8 +12,13 @@ const error = ref('');
 const handleLogin = async () => {
   try {
     await auth.login({ email: email.value, password: password.value });
-    // The router guard in index.ts will redirect /dashboard to the correct role page
-    router.push('/dashboard');
+
+    // FIX: Redirect explicitly based on role
+    if (auth.user?.role === 'photographer') {
+        router.push('/photographer/dashboard');
+    } else {
+        router.push('/client/dashboard');
+    }
   } catch (e) {
     error.value = 'Invalid credentials';
   }

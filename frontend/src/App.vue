@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue'; // Import onMounted
 import { useRoute } from 'vue-router';
+import { useAuthStore } from './stores/auth'; // Import Store
 import MainLayout from './layouts/MainLayout.vue';
-// ^ Default fallback if needed, though router usually handles it.
 
 const route = useRoute();
+const auth = useAuthStore(); // Use Store
 
-// Dynamically choose layout based on route meta, default to 'div' if none found
+// When App starts, try to get the user details using the token
+onMounted(() => {
+  auth.fetchUser();
+});
+
 const layout = computed(() => {
   return route.meta.layout || MainLayout;
 });

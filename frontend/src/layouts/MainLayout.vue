@@ -5,8 +5,9 @@ import { useRouter } from 'vue-router';
 const auth = useAuthStore();
 const router = useRouter();
 
-const handleLogout = () => {
-  auth.logout();
+// FIX: Make this async and wait for logout to finish
+const handleLogout = async () => {
+  await auth.logout();
   router.push('/login');
 };
 </script>

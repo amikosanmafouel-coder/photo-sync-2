@@ -6,34 +6,51 @@ export const useAuthStore = defineStore('auth', () => {
     const user = ref<any>(null);
     const token = ref<string | null>(localStorage.getItem('token'));
 
-    async function login(credentials: any) {
-        const response = await api.post('/login', credentials);
-        token.value = response.data.access_token;
-        user.value = response.data.user;
-
-        // Save to local storage so we stay logged in on refresh
-        if (token.value) {
-            localStorage.setItem('token', token.value);
-        }
+    // Helper to set state
+    function setAuth(newToken: string, newUser: any) {
+        token.value = newToken;
+        user.value = newUser;
+        localStorage.setItem('token', newToken);
     }
 
-    async function register(userData: any) {
-        const response = await api.post('/register', userData);
-        token.value = response.data.access_token;
-        user.value = response.data.user;
-
-        if (token.value) {
-            localStorage.setItem('token', token.value);
-        }
-    }
-
-    function logout() {
-        // Try to notify backend, but clear local state regardless
-        api.post('/logout').catch(() => {});
+    // Clear state
+    function clearAuth() {
         user.value = null;
         token.value = null;
         localStorage.removeItem('token');
     }
 
-    return { user, token, login, register, logout };
+    async function login(credentials: any) {
+        const response = await api.post('/login', credentials);
+        setAuth(response.data.access_token, response.data.user);
+    }
+
+    async function register(userData: any) {
+        const response = await api.post('/register', userData);
+        setAuth(response.data.access_token, response.data.user);
+    }
+
+    async function logout() {
+        try {
+            await api.post('/logout');
+        } catch (e) {
+            // Ignore errors on logout (e.g. token already expired)
+        } finally {
+            clearAuth();
+        }
+    }
+
+    // NEW: Fetch user if we have a token but no user data
+    async function fetchUser() {
+        if (!token.value) return;
+        try {
+            const response = await api.get('/user');
+            user.value = response.data;
+        } catch (error) {
+            // If the token is invalid (401), clear it
+            clearAuth();
+        }
+    }
+
+    return { user, token, login, register, logout, fetchUser };
 });
