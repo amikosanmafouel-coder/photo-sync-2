@@ -42,7 +42,7 @@ const router = createRouter({
     // Fallback for generic /dashboard access
     {
       path: '/dashboard',
-      redirect: (to) => {
+      redirect: () => {
          // We will handle this in the "beforeEach" guard below
          return '/login';
       }
@@ -51,7 +51,7 @@ const router = createRouter({
 });
 
 // Navigation Guard (Security & Redirection)
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   const auth = useAuthStore();
   const isAuthenticated = !!auth.token;
 
