@@ -19,11 +19,13 @@ return [
 
     'allowed_methods' => ['*'],
 
+    'allowed_origins' => ['*'],
+/*
     'allowed_origins' => [
         'http://localhost:5173',
         'https://photo-sync-2.vercel.app',
     ],
-
+*/
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
