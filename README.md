@@ -117,10 +117,9 @@ In a new terminal tab (Tab 2), expose port 8000:
    *Vercel will automatically redeploy the frontend with the new connection string.*
 
 ---
-
 ## 📂 Project Structure
 
-```
+```text
 photo-sync/
 ├── app/                 # Laravel Backend Logic (Controllers, Models)
 ├── config/              # App Configuration (CORS, Auth)
@@ -128,11 +127,27 @@ photo-sync/
 ├── routes/              # API Routes (api.php)
 ├── frontend/            # Vue.js Frontend Application
 │   ├── src/
-│   │   ├── layouts/     # AuthLayout, MainLayout
-│   │   ├── router/      # Vue Router Config
+│   │   ├── components/  # Reusable UI Components
+│   │   │   ├── shared/          # Generic UI (Buttons, Modals, Inputs)
+│   │   │   ├── admin/           # Admin-specific widgets (UserTables, Stats)
+│   │   │   ├── auth/            # Auth forms (LoginForm, RegisterForm)
+│   │   │   ├── client/          # Client widgets (PhotographerCard, SearchBar)
+│   │   │   └── photographer/    # Photographer widgets (PortfolioGrid, UploadForm)
+│   │   ├── layouts/     # Base Layouts (AuthLayout.vue, MainLayout.vue)
+│   │   ├── router/      # Vue Router Config (Role-based guards)
 │   │   ├── services/    # Axios API Configuration
-│   │   ├── stores/      # Pinia State Management (Auth)
-│   │   ├── views/       # Pages (Login, Dashboard, etc.)
+│   │   ├── stores/      # Pinia State Management (Auth, User Settings)
+│   │   └── views/       # Page Views (The actual routes)
+│   │       ├── shared/          # Public pages (Landing, 404, About)
+│   │       ├── admin/           # Admin Pages
+│   │       │   └── Dashboard.vue
+│   │       ├── auth/            # Authentication Pages
+│   │       │   ├── Login.vue
+│   │       │   └── Register.vue
+│   │       ├── client/          # Client Pages
+│   │       │   └── Dashboard.vue
+│   │       └── photographer/    # Photographer Pages
+│   │           └── Dashboard.vue
 │   └── vercel.json      # Vercel Routing Configuration
 └── ...
 ```

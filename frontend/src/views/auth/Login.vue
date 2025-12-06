@@ -14,10 +14,13 @@ const handleLogin = async () => {
     await auth.login({ email: email.value, password: password.value });
 
     // FIX: Redirect explicitly based on role
-    if (auth.user?.role === 'photographer') {
-        router.push('/photographer/dashboard');
+    const allowedRoles = ['admin', 'client', 'photographer'];
+    const userRole = auth.user?.role;
+
+    if (userRole && allowedRoles.includes(userRole)) {
+        router.push(`/${userRole}/dashboard`);
     } else {
-        router.push('/client/dashboard');
+        router.push('/login');
     }
   } catch (e) {
     error.value = 'Invalid credentials';
