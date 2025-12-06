@@ -10,7 +10,8 @@ import Login from '../views/auth/Login.vue';
 import Register from '../views/auth/Register.vue';
 import ClientDashboard from '../views/client/Dashboard.vue';
 import PhotographerDashboard from '../views/photographer/Dashboard.vue';
-import AdminDashboard from '../views/admin/Dashboard.vue'; // If you added Admin
+import AdminDashboard from '../views/admin/Dashboard.vue';
+import CategoryManager from '../views/admin/CategoryManager.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -40,6 +41,15 @@ const router = createRouter({
       path: '/admin/dashboard',
       component: AdminDashboard,
       meta: { layout: MainLayout, requiresAuth: true, role: 'admin' }
+    },
+    {
+        path: '/admin/categories',
+        component: CategoryManager,
+        meta: {
+            layout: MainLayout,
+            requiresAuth: true,
+            role: 'admin'
+        }
     },
 
     // Fallback

@@ -43,6 +43,15 @@ onMounted(() => {
 <template>
   <div class="admin-dashboard">
     <h1>Admin Panel</h1>
+
+    <!-- Navigation Menu -->
+    <div class="admin-nav">
+      <router-link to="/admin/categories" class="nav-card">
+        Manage Categories
+      </router-link>
+      <!-- You can add User Management link here too -->
+    </div>
+
     <div class="card">
       <h3>User Management</h3>
       <p v-if="loading">Loading...</p>
@@ -74,6 +83,13 @@ onMounted(() => {
 
 <style scoped>
 .admin-dashboard { padding: 20px; }
+.admin-nav { display: flex; gap: 20px; margin-bottom: 30px; }
+.nav-card {
+  background: #fff; padding: 20px; border-radius: 8px;
+  text-decoration: none; color: #333; font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.nav-card:hover { background: #f9fafb; }
 table { width: 100%; border-collapse: collapse; margin-top: 15px; }
 th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
 .client { color: blue; font-weight: bold; }
